@@ -2,22 +2,22 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace TodoApi.Models {
-    public class TodoRepo : ITodoRepo{
+    public class ListRepo : IDataRepo{
         // initialize the list with at least one note
-        static List<TodoNote> notes=new List<TodoNote>{
-                new TodoNote{ Id = 1, Title = "Sample", PlainText = "This is a sample Note"},
-                new TodoNote{ Id = 2, Title = "Test", PlainText = "This is a test Note"}
+        static List<Note> notes=new List<Note>{
+                new Note{ Id = 1, Title = "Sample", PlainText = "This is a sample Note"},
+                new Note{ Id = 2, Title = "Test", PlainText = "This is a test Note"}
             };
 
-        public TodoNote GetNote(int id){
+        public Note GetNote(int id){
             return notes.FirstOrDefault(note => note.Id == id);
         }
 
-        public List<TodoNote> GetAllNotes(){
+        public List<Note> GetAllNotes(){
             return notes;
         }
 
-        public bool PostNote(TodoNote note){
+        public bool PostNote(Note note){
             if(notes.Find(n => n.Id == note.Id) == null){
                 notes.Add(note);
                 return true;
@@ -27,8 +27,8 @@ namespace TodoApi.Models {
             }
         }
 
-        public bool PutNote(int id, TodoNote note){
-            TodoNote retrievedNote = notes.Find(n => n.Id == note.Id);
+        public bool PutNote(int id, Note note){
+            Note retrievedNote = notes.Find(n => n.Id == id);
             if( retrievedNote != null){
                 notes.Remove(retrievedNote);
                 notes.Add(note);
@@ -40,7 +40,7 @@ namespace TodoApi.Models {
         }
 
         public bool DeleteNote(int id){
-            TodoNote retrievedNote = notes.Find(n => n.Id == id);
+            Note retrievedNote = notes.Find(n => n.Id == id);
             if (retrievedNote != null){
                 notes.Remove(retrievedNote);
                 return true;

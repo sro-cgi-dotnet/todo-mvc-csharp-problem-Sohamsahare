@@ -13,16 +13,16 @@ namespace TodoApi.Controllers
     {
         // Reposition responsible for fetchin and adding to 
         // database / collection
-        ITodoRepo todoRepo ;
+        IDataRepo dataRepo ;
         // intialise this repo with a dependency injection
-        public TodoController(ITodoRepo _todoRepo){
-            this.todoRepo = _todoRepo;
+        public TodoController(IDataRepo _ListRepo){
+            this.dataRepo = _ListRepo;
         }
         // GET api/todo
         [HttpGet]
-        public ActionResult<IEnumerable<TodoNote>> Get()
+        public ActionResult<IEnumerable<Note>> Get()
         {
-            var notes = todoRepo.GetAllNotes();
+            var notes = dataRepo.GetAllNotes();
             if(notes.Count > 0){
                 return Ok(notes);
             }
@@ -33,9 +33,9 @@ namespace TodoApi.Controllers
 
         // GET api/todo/5
         [HttpGet("{id}")]
-        public ActionResult<TodoNote> Get(int id)
+        public ActionResult<Note> Get(int id)
         {
-            var noteById = todoRepo.GetNote(id);
+            var noteById = dataRepo.GetNote(id);
             if (noteById != null)
             {
                 return Ok(noteById);
@@ -48,13 +48,13 @@ namespace TodoApi.Controllers
 
         // POST api/todo
         [HttpPost]
-        public IActionResult Post([FromBody] TodoNote note)
+        public IActionResult Post([FromBody] Note note)
         {
             if(ModelState.IsValid){
-                bool result = todoRepo.PostNote(note);
+                bool result = dataRepo.PostNote(note);
                 if (result)
                 {
-                    return Created("/api/todo",note);
+                    return Created($"/todo/{note.Id}",note);
                 }
                 else
                 {
@@ -66,10 +66,10 @@ namespace TodoApi.Controllers
 
         // PUT api/todo/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] TodoNote note)
+        public IActionResult Put(int id, [FromBody] Note note)
         {
             if(ModelState.IsValid){
-                bool result = todoRepo.PutNote(id, note);
+                bool result = dataRepo.PutNote(id, note);
                 if(result){
                     return Created("/api/todo", note);
                 }
@@ -84,7 +84,7 @@ namespace TodoApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            bool result = todoRepo.DeleteNote(id);
+            bool result = dataRepo.DeleteNote(id);
             if(result){
                 return Ok($"note with id : {id} deleted succesfully");
             }

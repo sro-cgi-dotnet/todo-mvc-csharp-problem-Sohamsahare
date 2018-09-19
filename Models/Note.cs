@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 namespace TodoApi.Models {
-    public class TodoNote{
+    public class Note{
          [Required]
          public int? Id {get; set;}
          [Required]
