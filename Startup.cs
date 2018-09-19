@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
+
 using TodoApi.Models;
 
 namespace TodoApi
@@ -27,7 +29,11 @@ namespace TodoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddScoped<IDataRepo,ListRepo>();
+            services.AddDbContext<TodoContext>(options =>
+            {
+                options.UseSqlite(Configuration.GetConnectionString("NotesDbString"));
+            });
+            services.AddScoped<IDataRepo,DatabaseRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

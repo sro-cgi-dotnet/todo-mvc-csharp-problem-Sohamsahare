@@ -13,7 +13,7 @@ namespace TodoApi.Controllers
     {
         // Reposition responsible for fetchin and adding to 
         // database / collection
-        IDataRepo dataRepo ;
+        IDataRepo dataRepo = null ;
         // intialise this repo with a dependency injection
         public TodoController(IDataRepo _ListRepo){
             this.dataRepo = _ListRepo;
