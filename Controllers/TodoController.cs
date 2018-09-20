@@ -54,7 +54,7 @@ namespace TodoApi.Controllers
                 bool result = dataRepo.PostNote(note);
                 if (result)
                 {
-                    return Created($"/todo/{note.Id}",note);
+                    return Created($"/todo/{note.NoteId}",note);
                 }
                 else
                 {

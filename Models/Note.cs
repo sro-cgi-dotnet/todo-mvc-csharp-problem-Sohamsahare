@@ -1,13 +1,15 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace TodoApi.Models {
     public class Note{
-         [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
-         public int? Id {get; set;}
-         [Required]
-         public virtual string Title {get; set;}
+        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public int? NoteId {get; set;}
+        [Required]
+        public string Title {get; set;}
         public string PlainText {get; set;}
+        public List<CheckListItem> CheckList {get; set;}
         
     }
 }

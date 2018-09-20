@@ -29,10 +29,11 @@ namespace TodoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddDbContext<TodoContext>(options =>
-            {
-                options.UseSqlite(Configuration.GetConnectionString("NotesDbString"));
-            });
+            // services.AddDbContext<TodoContext>(options =>
+            // {
+            //     options.UseSqlite(Configuration.GetConnectionString("NotesDbString"));
+            // });
+            services.AddDbContext<TodoContext>();
             services.AddScoped<IDataRepo,DatabaseRepo>();
         }
 
