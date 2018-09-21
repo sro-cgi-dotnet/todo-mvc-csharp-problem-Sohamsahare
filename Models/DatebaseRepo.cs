@@ -13,7 +13,7 @@ namespace TodoApi.Models{
         }
 
         public Note GetNote(int Id){
-            return db.Notes.FirstOrDefault(n => n.NoteId == Id);
+            return db.Notes.Include(n => n.CheckList).Include(n => n.Labels).FirstOrDefault(n => n.NoteId == Id);
         }
 
         public List<Note> GetNote(string text, string type){
@@ -21,8 +21,8 @@ namespace TodoApi.Models{
             if(type ==Constant.Type.Label){
                 List<Label> textLabels = db.Labels.Where(l => l.Name == text).ToList();
                 foreach (Label label in textLabels){
-                    var retrievedNote = db.Notes.Where(n => n.NoteId == label.NoteId).Include(n => n.CheckList).Include(n => n.Labels).ToList();
-                    notesWithText.AddRange(retrievedNote);
+                    var retrievedNote = db.Notes.Include(n => n.CheckList).Include(n => n.Labels).FirstOrDefault(n => n.NoteId == label.NoteId);
+                    notesWithText.Add(retrievedNote);
                 }
             } else if(type == Constant.Type.Title)
             {
@@ -71,7 +71,7 @@ namespace TodoApi.Models{
         }
 
         public bool PutNote(int id, Note note){
-            Note retrievedNote = db.Notes.Where(n => n.NoteId == id).Include(n => n.CheckList).Include(n => n.Labels).ToList()[0];
+            Note retrievedNote = db.Notes.Include(n => n.CheckList).Include(n => n.Labels).FirstOrDefault(n => n.NoteId == id);
             if(retrievedNote != null){
                 db.Notes.Remove(retrievedNote);
                 db.Notes.Add(note);
@@ -84,7 +84,7 @@ namespace TodoApi.Models{
         }
 
         public bool DeleteNote(int id){
-            Note retrievedNote = db.Notes.Where(n => n.NoteId == id).Include(n=>n.CheckList).Include(n=>n.Labels).ToList()[0];
+            Note retrievedNote = db.Notes.Include(n=>n.CheckList).Include(n=>n.Labels).FirstOrDefault(n => n.NoteId == id);
             if(retrievedNote != null){
                 db.Notes.Remove(retrievedNote);
                 db.SaveChanges();
