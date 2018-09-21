@@ -51,7 +51,7 @@ namespace TodoApi.Models{
         public bool PostNote(Note note){
             if(db.Notes.FirstOrDefault(n => n.NoteId == note.NoteId) == null){
                 db.Notes.Add(note);
-                PostChecklist(note);
+                // PostChecklist(note);
                 db.SaveChanges();
                 return true;
             }
@@ -60,21 +60,21 @@ namespace TodoApi.Models{
             }
         }
 
-        void PostChecklist(Note note){
-            foreach(CheckListItem cl in note.CheckList){
-                db.CheckLists.Add(cl);
-            }
-            foreach(Label l in note.Labels){
-                db.Labels.Add(l);
-            }
-            db.SaveChanges();
-        }
+        // void PostChecklist(Note note){
+        //     foreach(CheckListItem cl in note.CheckList){
+        //         db.CheckLists.Add(cl);
+        //     }
+        //     foreach(Label l in note.Labels){
+        //         db.Labels.Add(l);
+        //     }
+        //     db.SaveChanges();
+        // }
 
         public bool PutNote(int id, Note note){
-            Note retrievedNote = db.Notes.Include(n => n.CheckList).Include(n => n.Labels).FirstOrDefault(n => n.NoteId == id);
+            Note retrievedNote = db.Notes.FirstOrDefault(n => n.NoteId == id);
             if(retrievedNote != null){
-                db.Notes.Remove(retrievedNote);
-                db.Notes.Add(note);
+                // db.Notes.Remove(retrievedNote);
+                // db.Notes.Add(note);
                 db.SaveChanges();
                 return true;
             }
