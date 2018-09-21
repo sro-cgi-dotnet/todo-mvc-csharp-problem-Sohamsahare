@@ -9,7 +9,10 @@ namespace TodoApi.Models {
         [Required]
         public string Title {get; set;}
         public string PlainText {get; set;}
+        public bool IsPinned { get; set; }
         public List<CheckListItem> CheckList {get; set;}
+
+        public List<Label> Labels { get; set; }
         
     }
 }

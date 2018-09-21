@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TodoApi.Migrations
 {
-    public partial class CheckListAdded : Migration
+    public partial class CompleteNote : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,8 @@ namespace TodoApi.Migrations
                 {
                     NoteId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(nullable: false),
-                    PlainText = table.Column<string>(nullable: true)
+                    PlainText = table.Column<string>(nullable: true),
+                    IsPinned = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,9 +42,34 @@ namespace TodoApi.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Labels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(nullable: false),
+                    NoteId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Labels", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Labels_Notes_NoteId",
+                        column: x => x.NoteId,
+                        principalTable: "Notes",
+                        principalColumn: "NoteId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_CheckLists_NoteId",
                 table: "CheckLists",
+                column: "NoteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Labels_NoteId",
+                table: "Labels",
                 column: "NoteId");
         }
 
@@ -51,6 +77,9 @@ namespace TodoApi.Migrations
         {
             migrationBuilder.DropTable(
                 name: "CheckLists");
+
+            migrationBuilder.DropTable(
+                name: "Labels");
 
             migrationBuilder.DropTable(
                 name: "Notes");

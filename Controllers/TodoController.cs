@@ -32,7 +32,7 @@ namespace TodoApi.Controllers
         }
 
         // GET api/todo/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public ActionResult<Note> Get(int id)
         {
             var noteById = dataRepo.GetNote(id);
@@ -43,6 +43,21 @@ namespace TodoApi.Controllers
             else
             {
                 return NotFound($"Note with {id} not found.");
+            }
+        }
+
+        [HttpGet("{text}")]
+        public ActionResult<Note> Get(string text,[FromQuery] string type)
+        {
+            List<Note> listWithText = dataRepo.GetNote(text, type);
+            if(listWithText == null){
+                return BadRequest($"Type : {type} or Text : {text}  is invalid. Please try again");
+            }
+            else if(listWithText.Count == 0){
+                return NotFound($"Notes with {type} = {text} not found.");
+            }
+            else{
+                return Ok(listWithText);
             }
         }
 

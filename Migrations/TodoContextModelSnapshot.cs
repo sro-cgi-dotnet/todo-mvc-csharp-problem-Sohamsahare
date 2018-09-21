@@ -38,9 +38,29 @@ namespace TodoApi.Migrations
                     b.ToTable("CheckLists");
                 });
 
+            modelBuilder.Entity("TodoApi.Models.Label", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired();
+
+                    b.Property<int>("NoteId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NoteId");
+
+                    b.ToTable("Labels");
+                });
+
             modelBuilder.Entity("TodoApi.Models.Note", b =>
                 {
                     b.Property<int?>("NoteId");
+
+                    b.Property<bool>("IsPinned");
 
                     b.Property<string>("PlainText");
 
@@ -56,6 +76,14 @@ namespace TodoApi.Migrations
                 {
                     b.HasOne("TodoApi.Models.Note")
                         .WithMany("CheckList")
+                        .HasForeignKey("NoteId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("TodoApi.Models.Label", b =>
+                {
+                    b.HasOne("TodoApi.Models.Note")
+                        .WithMany("Labels")
                         .HasForeignKey("NoteId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
