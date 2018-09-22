@@ -71,16 +71,9 @@ namespace TodoApi.Models{
         // }
 
         public bool PutNote(int id, Note note){
-            Note retrievedNote = db.Notes.FirstOrDefault(n => n.NoteId == id);
-            if(retrievedNote != null){
-                // db.Notes.Remove(retrievedNote);
-                // db.Notes.Add(note);
-                db.SaveChanges();
-                return true;
-            }
-            else{
-                return false;
-            }
+            db.Notes.Update(note);
+            db.SaveChanges();
+            return true;
         }
 
         public bool DeleteNote(int id){
