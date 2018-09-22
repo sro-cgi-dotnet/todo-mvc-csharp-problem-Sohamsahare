@@ -23,7 +23,10 @@ namespace TodoApi.Controllers
         public ActionResult<IEnumerable<Note>> Get()
         {
             var notes = dataRepo.GetAllNotes();
-            if(notes.Count > 0){
+            if(notes == null){
+                return NotFound("Database returned null");
+            }
+            else if(notes.Count > 0){
                 return Ok(notes);
             }
             else{
