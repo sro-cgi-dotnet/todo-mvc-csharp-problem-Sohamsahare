@@ -20,23 +20,20 @@ namespace TodoApi.Controllers
         }
         // GET api/todo
         [HttpGet]
-        public ActionResult<IEnumerable<Note>> Get()
+        public IActionResult Get()
         {
             var notes = dataRepo.GetAllNotes();
             if(notes == null){
                 return NotFound("Database returned null");
             }
-            else if(notes.Count > 0){
-                return Ok(notes);
-            }
             else{
-                return Ok("No Entries Available. Database is Empty");
+                return Ok(notes);
             }
         }
 
         // GET api/todo/5
         [HttpGet("{id:int}")]
-        public ActionResult<Note> Get(int id)
+        public IActionResult Get(int id)
         {
             var noteById = dataRepo.GetNote(id);
             if (noteById != null)
@@ -50,7 +47,7 @@ namespace TodoApi.Controllers
         }
 
         [HttpGet("{text}")]
-        public ActionResult<Note> Get(string text,[FromQuery] string type)
+        public IActionResult Get(string text,[FromQuery] string type)
         {
             List<Note> listWithText = dataRepo.GetNote(text, type);
             if(listWithText == null){
@@ -89,7 +86,7 @@ namespace TodoApi.Controllers
             if(ModelState.IsValid){
                 bool result = dataRepo.PutNote(id, note);
                 if(result){
-                    return Created("/api/todo", note);
+                    return Created($"/api/todo/{note.NoteId}", note);
                 }
                 else{
                     return NotFound($"Note with {id} not found.");
