@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TodoApi.Models {
     public class Note{
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Required,Key, DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int? NoteId {get; set;}
         [Required]
         public string Title {get; set;}
@@ -16,3 +16,18 @@ namespace TodoApi.Models {
         
     }
 }
+
+
+/*
+    NoteId:
+        type: "integer"
+        format: "int64"
+    Title:
+        type: "string"
+        example: "Sample Note Title"
+    PlainText:
+        type: "string"
+        example: "This is sample for the plaintext field."
+    IsPinned:
+        type: "bool"
+*/
