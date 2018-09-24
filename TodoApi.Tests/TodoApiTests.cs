@@ -36,7 +36,7 @@ namespace TodoApi.Tests
                 },
                 new Note {
                     NoteId = 2,
-                    title = "Trial",
+                    Title = "Trial",
                     CheckList = new List<CheckListItem> {
                         new CheckListItem {
                             Id = 2,
